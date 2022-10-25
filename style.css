@@ -2,6 +2,10 @@ body{
     background-color: #222222;
 }
 
+#input{
+    padding-bottom: 10px;
+}
+
 #numIn{
     width: 320px;
     height: 80px;

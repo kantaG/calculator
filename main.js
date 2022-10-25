@@ -172,8 +172,7 @@ function main(){
     formula = hiddenMul(formula);
     formula = minus(formula);
 
-    output = document.getElementById("output");
-    output.textContent = formula + "=" + calculate(formula)
+    input.value = calculate(formula)
 }
 
 window.addEventListener("DOMContentLoaded", function(){
