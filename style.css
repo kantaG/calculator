@@ -1,0 +1,8 @@
+.keyrow{
+    overflow: hidden;
+}
+
+.numkey{
+    float: left;
+    padding: 40px;
+}
