@@ -5,7 +5,7 @@ function onKey(e){
         main();
         return;
     }
-    if(btnval == "AC"){
+    if(btnval == "⇦"){
         input.value = input.value.slice(0, input.value.length-1);
         return;
     }
@@ -18,15 +18,15 @@ function onKey(e){
 
 function isFormula(formula){
     //数式として正しいかを判別
-    if(formula.search(/^[\d|\+|\-|\*|\/|\(|\)|\.]*$/g) == -1){
+    if(formula.search(/^[\d|\+|\-|×|÷|\(|\)|\.]*$/g) == -1){
         console.log(1);
         return false;
     }
-    if(formula.search(/^[\+\*\/\.]/) != -1){
+    if(formula.search(/^[\+×÷\.]/) != -1){
         console.log(2);
         return false;
     }
-    if(formula.search(/[\+\-\*\/\(][\*\+\/\.\)]/) != -1){
+    if(formula.search(/[\+\-×÷\(][×\+÷\.\)]/) != -1){
         console.log(3);
         return false;
     }
@@ -47,7 +47,7 @@ function hiddenMul(formula){
     while(true){
         result = formula.search(/\d\(/);
         if(result != -1){
-            formula = formula.slice(0, result+1) + "*" + formula.slice(result+1, formula.length);
+            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
         }else{
             break;
         }
@@ -55,7 +55,7 @@ function hiddenMul(formula){
     while(true){
         result = formula.search(/\)\d/);
         if(result != -1){
-            formula = formula.slice(0, result+1) + "*" + formula.slice(result+1, formula.length);
+            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
         }else{
             break;
         }
@@ -150,9 +150,9 @@ function calculate(formula){
             return sub(formula.slice(0, result), formula.slice(result+1, formula.length));
         }
     }
-    result = formula.search(/[\*\/]/);
+    result = formula.search(/[×÷]/);
     if(result != -1){
-        if(formula[result] == "*"){
+        if(formula[result] == "×"){
             return mul(formula.slice(0, result), formula.slice(result+1, formula.length));
         }else{
             return div(formula.slice(0, result), formula.slice(result+1, formula.length));

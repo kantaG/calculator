@@ -1,8 +1,28 @@
+body{
+    background-color: #222222;
+}
+
+#numIn{
+    width: 320px;
+    height: 80px;
+    font-size: 40px;
+    color: whitesmoke;
+    background-color: dimgray;
+    text-align: right;
+}
+
 .keyrow{
     overflow: hidden;
 }
 
 .numkey{
+    border-radius: 50%;
     float: left;
-    padding: 40px;
+    width: 80px;
+    height: 80px;
+    margin: 2px;
+    background-color: darkslategray;
+    color: whitesmoke;
+    border: 0px;
+    font-size: 25px;
 }
