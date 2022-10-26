@@ -164,19 +164,26 @@ function calculate(formula){
 function main(){
     let input = document.getElementById("numIn");
     let formula = input.value.replace(/\s+/g, "");
-    let temp = formula
+    let temp = formula;
+    let logs = document.getElementById("log");
+
     if(isFormula(formula) == false){
-        console.log("input is not formula");
+        input.value = "error";
+        logs.innerHTML += temp + " = error<br>";
         return;
     }
     formula = hiddenMul(formula);
     formula = minus(formula);
 
     result = calculate(formula);
+    if(result == false){
+        input.value = "error";
+        logs.innerHTML += temp + " = error<br>";
+        return;
+    }
     input.value = result;
 
-    let logs = document.getElementById("log");
-    log.innerHTML += temp + "=" + result + "<br>"
+    logs.innerHTML += temp + " = " + result + "<br>"
 }
 
 window.addEventListener("DOMContentLoaded", function(){
