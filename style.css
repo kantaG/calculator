@@ -25,8 +25,17 @@ body{
     width: 80px;
     height: 80px;
     margin: 2px;
-    background-color: darkslategray;
+    background-color: #2f4f4f;
     color: whitesmoke;
     border: 0px;
     font-size: 25px;
+}
+
+.numkey:hover{
+    background-color: #3f5f5f;
+}
+
+.numkey:active{
+    border-radius: 20%;
+    background-color: #5f7f7f;
 }
