@@ -1,4 +1,4 @@
-var zeroflag = 0;
+var errorflag = 0;
 
 function onKey(e){
     //キー入力を受け付ける
@@ -17,6 +17,13 @@ function onKey(e){
         return;
     }
     input.value += btnval;
+}
+
+function enter(e){
+    //エンターキーで計算をスタートする
+    if(e.keyCode === 13){
+        main();
+    }
 }
 
 function isFormula(formula){
@@ -133,7 +140,7 @@ function div(formula1, formula2){
     n = Number(calculate(formula2));
     if(n == 0){
         console.log("zero division");
-        zeroflag = 1;
+        errorflag = 1;
         return false;
     }
     return Number(calculate(formula1)) / n;
@@ -142,11 +149,10 @@ function div(formula1, formula2){
 function calculate(formula){
     //計算を実行
     //返り値：計算結果
-    console.log(formula);
     //括弧
     let brackets = find_brackets(formula);
     if(brackets == false){
-        console.log("invalid formula");
+        errorflag = 1;
         return false;
     }else if(brackets !== -1){
         return calculate(formula.slice(0, brackets[0]) + calculate(formula.slice(brackets[0]+1, brackets[1])) + formula.slice(brackets[1]+1, formula.length)); 
@@ -180,10 +186,10 @@ function main(){
     let temp = formula;
     let logs = document.getElementById("log");
 
-    zeroflag = 0;
+    errorflag = 0;
 
     //入力を検証
-    if(isFormula(formula) == false){
+    if(isFormula(formula) === false){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
         return;
@@ -193,14 +199,14 @@ function main(){
 
     //計算を実行
     result = calculate(formula);
-    if(result == false){
+    if(result === false){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
         return;
     }
 
     //ゼロ除算を検知（要修正）
-    if(zeroflag == 1){
+    if(errorflag == 1){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
         return;
@@ -220,4 +226,7 @@ window.addEventListener("DOMContentLoaded", function(){
     targets.forEach(function(key){
         key.addEventListener("click", onKey, false);
     })
+
+    let input = this.document.getElementById("numIn");
+    input.addEventListener("keypress", enter, false);
 }, false);
