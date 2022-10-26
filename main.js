@@ -1,4 +1,5 @@
 function onKey(e){
+    //キー入力を受け付ける
     let input = document.getElementById("numIn");
     let btnval = e.target.value;
     if(btnval == "="){
@@ -19,30 +20,25 @@ function onKey(e){
 function isFormula(formula){
     //数式として正しいかを判別
     if(formula.search(/^[\d|\+|\-|×|÷|\(|\)|\.]*$/g) == -1){
-        console.log(1);
         return false;
     }
     if(formula.search(/^[\+×÷\.]/) != -1){
-        console.log(2);
         return false;
     }
     if(formula.search(/[\+\-×÷\(][×\+÷\.\)]/) != -1){
-        console.log(3);
         return false;
     }
     if(formula.search(/[\+\-\.][\-]/) != -1){
-        console.log(4);
         return false;
     }
     if(formula.search(/\d\.\d*\./) != -1){
-        console.log(4);
         return false;
     }
     return true;
 }
 
 function hiddenMul(formula){
-    //括弧と数字の間で省略された*を処理(要修正)
+    //括弧と数字の間、括弧と括弧の間で省略された掛け算を処理(要修正)
     let result;
     while(true){
         result = formula.search(/\d\(/);
@@ -72,6 +68,7 @@ function hiddenMul(formula){
 }
 
 function minus(formula){
+    //二項演算子としての-を~に置換
     let result;
     while(true){
         result = formula.search(/[\d\)]\-[\d\(]/);
@@ -142,7 +139,8 @@ function div(formula1, formula2){
 function calculate(formula){
     //計算を実行
     //返り値：計算結果
-    console.log(formula);
+
+    //括弧
     let brackets = find_brackets(formula);
     if(brackets == false){
         console.log("invalid formula");
@@ -150,6 +148,8 @@ function calculate(formula){
     }else if(brackets !== -1){
         return calculate(formula.slice(0, brackets[0]) + calculate(formula.slice(brackets[0]+1, brackets[1])) + formula.slice(brackets[1]+1, formula.length)); 
     }
+
+    //加算。減算
     let result = Math.max(formula.lastIndexOf("+"), formula.lastIndexOf("~"));
     if(result != -1){
         if(formula[result] == "+"){
@@ -158,6 +158,8 @@ function calculate(formula){
             return sub(formula.slice(0, result), formula.slice(result+1, formula.length));
         }
     }
+
+    //乗算、除算
     result = Math.max(formula.lastIndexOf("×"), formula.lastIndexOf("÷"));
     if(result != -1){
         if(formula[result] == "×"){
@@ -175,6 +177,7 @@ function main(){
     let temp = formula;
     let logs = document.getElementById("log");
 
+    //入力を検証
     if(isFormula(formula) == false){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
@@ -183,20 +186,23 @@ function main(){
     formula = hiddenMul(formula);
     formula = minus(formula);
 
+    //計算を実行
     result = calculate(formula);
     if(result == false){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
         return;
     }
-    input.value = result;
 
+    //結果を反映
+    input.value = result;
     logs.innerHTML += temp + " = " + result + "<br>"
 }
 
 window.addEventListener("DOMContentLoaded", function(){
     console.log("contents loaded");
 
+    //イベントリスナーを設置
     let key = document.getElementsByClassName("numkey");
     let targets = Array.from(key);
     targets.forEach(function(key){
