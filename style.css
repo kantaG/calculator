@@ -47,6 +47,7 @@ body{
     color: whitesmoke;
     border: 0px;
     font-size: 30px;
+    transition: all 0.2s;
 }
 
 .big{
