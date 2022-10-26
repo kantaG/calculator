@@ -163,8 +163,8 @@ function calculate(formula){
 
 function main(){
     let input = document.getElementById("numIn");
-    console.log(input.value);
     let formula = input.value.replace(/\s+/g, "");
+    let temp = formula
     if(isFormula(formula) == false){
         console.log("input is not formula");
         return;
@@ -172,7 +172,11 @@ function main(){
     formula = hiddenMul(formula);
     formula = minus(formula);
 
-    input.value = calculate(formula)
+    result = calculate(formula);
+    input.value = result;
+
+    let logs = document.getElementById("log");
+    log.innerHTML += temp + "=" + result + "<br>"
 }
 
 window.addEventListener("DOMContentLoaded", function(){

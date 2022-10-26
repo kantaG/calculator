@@ -1,9 +1,26 @@
 body{
+    background-color: #323232;
+}
+
+#outer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#inner{
     background-color: #222222;
+    width: 378px;
+    height: 580px;
 }
 
 #input{
-    padding-bottom: 10px;
+    padding: 20px;
+}
+
+#keys{
+    margin: 20px;
 }
 
 #numIn{
@@ -12,7 +29,6 @@ body{
     font-size: 40px;
     color: whitesmoke;
     background-color: dimgray;
-    text-align: right;
 }
 
 .keyrow{
@@ -38,4 +54,20 @@ body{
 .numkey:active{
     border-radius: 20%;
     background-color: #5f7f7f;
+}
+
+#btneq{
+    background-color: #af3c00;
+}
+
+#btneq:hover{
+    background-color: #ef5c00;
+}
+
+#btneq:active{
+    background-color: #ff6c30;
+}
+
+#log{
+    color: whitesmoke;
 }
