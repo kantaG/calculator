@@ -142,7 +142,7 @@ function calculate(formula){
     }else if(brackets !== -1){
         return calculate(formula.slice(0, brackets[0]) + calculate(formula.slice(brackets[0]+1, brackets[1])) + formula.slice(brackets[1]+1, formula.length)); 
     }
-    let result = formula.search(/[\+\~]/);
+    let result = Math.max(formula.lastIndexOf("+"), formula.lastIndexOf("~"));
     if(result != -1){
         if(formula[result] == "+"){
             return add(formula.slice(0, result), formula.slice(result+1, formula.length));
@@ -150,7 +150,7 @@ function calculate(formula){
             return sub(formula.slice(0, result), formula.slice(result+1, formula.length));
         }
     }
-    result = formula.search(/[×÷]/);
+    result = Math.max(formula.lastIndexOf("×"), formula.lastIndexOf("÷"));
     if(result != -1){
         if(formula[result] == "×"){
             return mul(formula.slice(0, result), formula.slice(result+1, formula.length));
