@@ -46,7 +46,11 @@ body{
     background-color: #2f4f4f;
     color: whitesmoke;
     border: 0px;
-    font-size: 25px;
+    font-size: 30px;
+}
+
+.big{
+    font-size: 40px;
 }
 
 .numkey:hover{
