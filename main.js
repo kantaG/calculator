@@ -89,6 +89,14 @@ function minus(formula){
     }
 }
 
+function lastsymbol(formula){
+    let result = formula.search(/[\-\+\×\÷\~]$/);
+    if(result != 1){
+        return formula.slice(0, result);
+    }
+    return formula;
+}
+
 function find_brackets(formula){
     //括弧を処理
     //戻り値：最初の(と最後の)の位置
@@ -196,6 +204,7 @@ function main(){
     }
     formula = hiddenMul(formula);
     formula = minus(formula);
+    formula = lastsymbol(formula);
 
     //計算を実行
     result = calculate(formula);
