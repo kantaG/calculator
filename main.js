@@ -1,3 +1,5 @@
+var zeroflag = 0;
+
 function onKey(e){
     //キー入力を受け付ける
     let input = document.getElementById("numIn");
@@ -131,6 +133,7 @@ function div(formula1, formula2){
     n = Number(calculate(formula2));
     if(n == 0){
         console.log("zero division");
+        zeroflag = 1;
         return false;
     }
     return Number(calculate(formula1)) / n;
@@ -139,7 +142,7 @@ function div(formula1, formula2){
 function calculate(formula){
     //計算を実行
     //返り値：計算結果
-
+    console.log(formula);
     //括弧
     let brackets = find_brackets(formula);
     if(brackets == false){
@@ -177,6 +180,8 @@ function main(){
     let temp = formula;
     let logs = document.getElementById("log");
 
+    zeroflag = 0;
+
     //入力を検証
     if(isFormula(formula) == false){
         input.value = "error";
@@ -189,6 +194,13 @@ function main(){
     //計算を実行
     result = calculate(formula);
     if(result == false){
+        input.value = "error";
+        logs.innerHTML += temp + " = error<br>";
+        return;
+    }
+
+    //ゼロ除算を検知（要修正）
+    if(zeroflag == 1){
         input.value = "error";
         logs.innerHTML += temp + " = error<br>";
         return;
