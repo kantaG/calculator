@@ -43,6 +43,9 @@ function isFormula(formula){
     if(formula.search(/\d\.\d*\./) != -1){
         return false;
     }
+    if(formula.search(/[\-\+×÷]$/) != -1){
+        return false;
+    }
     return true;
 }
 
@@ -87,14 +90,6 @@ function minus(formula){
             return formula;
         }
     }
-}
-
-function lastsymbol(formula){
-    let result = formula.search(/[\-\+\×\÷\~]$/);
-    if(result != 1){
-        return formula.slice(0, result);
-    }
-    return formula;
 }
 
 function find_brackets(formula){
@@ -204,7 +199,6 @@ function main(){
     }
     formula = hiddenMul(formula);
     formula = minus(formula);
-    formula = lastsymbol(formula);
 
     //計算を実行
     result = calculate(formula);
