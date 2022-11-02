@@ -28,21 +28,27 @@ function enter(e){
 
 function isFormula(formula){
     //数式として正しいかを判別
+    //文字の種類(ホワイトリスト)
     if(formula.search(/^[\d|\+|\-|×|÷|\(|\)|\.]*$/g) == -1){
         return false;
     }
+    //先頭の記号
     if(formula.search(/^[\+×÷\.]/) != -1){
         return false;
     }
+    //連続する記号
     if(formula.search(/[\+\-×÷\(][×\+÷\.\)]/) != -1){
         return false;
     }
+    //マイナスの制限
     if(formula.search(/[\+\-\.][\-]/) != -1){
         return false;
     }
+    //複数の小数点
     if(formula.search(/\d\.\d*\./) != -1){
         return false;
     }
+    //末尾の記号
     if(formula.search(/[\-\+×÷]$/) != -1){
         return false;
     }
