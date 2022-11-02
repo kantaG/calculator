@@ -2,6 +2,8 @@ var errorflag = 0;
 
 function onKey(e){
     //キー入力を受け付ける
+    document.getElementById('se').currentTime = 0;
+    document.getElementById('se').play();
     let input = document.getElementById("numIn");
     let btnval = e.target.value;
     if(btnval == "="){
