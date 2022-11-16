@@ -13,7 +13,7 @@ body{
 #inner{
     background-color: #222222;
     width: 378px;
-    height: 580px;
+    height: 680px;
 }
 
 #input{
@@ -73,6 +73,18 @@ body{
 
 #btneq:active{
     background-color: #ff6c30;
+}
+
+#btnC{
+    background-color: #7f007c;
+}
+
+#btnC:hover{
+    background-color: #9f009c;
+}
+
+#btnC:active{
+    background-color: #9f309c;
 }
 
 #log{

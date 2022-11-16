@@ -31,19 +31,19 @@ function enter(e){
 function isFormula(formula){
     //数式として正しいかを判別
     //文字の種類(ホワイトリスト)
-    if(formula.search(/^[\d|\+|\-|×|÷|\(|\)|\.]*$/g) == -1){
+    if(formula.search(/^[\d|\+|\-|×|÷|\(|\)|\.|\^|π|√]*$/g) == -1){
         return false;
     }
     //先頭の記号
-    if(formula.search(/^[\+×÷\.]/) != -1){
+    if(formula.search(/^[\+×÷\.\^]/) != -1){
         return false;
     }
     //連続する記号
-    if(formula.search(/[\+\-×÷\(][×\+÷\.\)]/) != -1){
+    if(formula.search(/[\+\-×÷\(\^√][×\+÷\.\)\^]/) != -1){
         return false;
     }
     //マイナスの制限
-    if(formula.search(/[\+\-\.][\-]/) != -1){
+    if(formula.search(/[\+\-\.\^√][\-]/) != -1){
         return false;
     }
     //複数の小数点
@@ -51,7 +51,7 @@ function isFormula(formula){
         return false;
     }
     //末尾の記号
-    if(formula.search(/[\-\+×÷]$/) != -1){
+    if(formula.search(/[\-\+×÷\^√]$/) != -1){
         return false;
     }
     return true;
@@ -84,6 +84,22 @@ function hiddenMul(formula){
             break;
         }
     }
+    while(true){
+        result = formula.search(/\d√/);
+        if(result != -1){
+            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
+        }else{
+            break;
+        }
+    }
+    while(true){
+        result = formula.search(/√√/);
+        if(result != -1){
+            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
+        }else{
+            break;
+        }
+    }
     return formula;
 }
 
@@ -96,6 +112,26 @@ function minus(formula){
             formula = formula.slice(0, result+1) + "~" + formula.slice(result+2, formula.length);
         }else{
             return formula;
+        }
+    }
+}
+
+function pi(formula){
+    let result;
+    while(true){
+        result = formula.search(/\dπ|π\d/);
+        if(result != -1){
+            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
+        }else{
+            break;
+        }
+    }
+    while(true){
+        result = formula.search(/π/);
+        if(result != -1){
+            formula = formula.slice(0, result) + "3.14" + formula.slice(result+1, formula.length)
+        }else{
+            return formula
         }
     }
 }
@@ -131,6 +167,18 @@ function find_brackets(formula){
     }
 }
 
+function find_root(formula){
+    let result = formula.lastIndexOf("√");
+    if(result != -1){
+        index = formula.slice(result+1, formula.length).search(/[\+\~×÷]/);
+        if(index == -1){
+            return [result, formula.length - 1]
+        }
+        return [result, index+result];
+    }
+    return -1;
+}
+
 function add(formula1, formula2){
     //足し算
     return Number(calculate(formula1)) + Number(calculate(formula2));
@@ -156,8 +204,22 @@ function div(formula1, formula2){
     }
     return Number(calculate(formula1)) / n;
 }
+function exp(formula1, formula2){
+    return Number(calculate(formula1) ** Number(calculate(formula2)))
+}
+
+function root(formula){
+    print(formula)
+    if(Number(formula) < 0){
+        console.log("minus root");
+        errorflag = 1;
+        return false;
+    }
+    return Number(Math.sqrt(Number(formula)))
+}
 
 function calculate(formula){
+    console.log(formula)
     //計算を実行
     //返り値：計算結果
     //括弧
@@ -167,6 +229,12 @@ function calculate(formula){
         return false;
     }else if(brackets !== -1){
         return calculate(formula.slice(0, brackets[0]) + calculate(formula.slice(brackets[0]+1, brackets[1])) + formula.slice(brackets[1]+1, formula.length)); 
+    }
+
+    let roots = find_root(formula);
+    console.log(roots)
+    if(roots !== -1){
+        return calculate(formula.slice(0, roots[0]) + String(root(formula.slice(roots[0]+1, roots[1])) + formula.slice(roots[1], formula.length)))
     }
 
     //加算。減算
@@ -188,6 +256,10 @@ function calculate(formula){
             return div(formula.slice(0, result), formula.slice(result+1, formula.length));
         }
     }
+    result = formula.lastIndexOf("^");
+    if(result != -1){
+        return exp(formula.slice(0, result), formula.slice(result+1, formula.length))
+    }
     return formula;
 }
 
@@ -205,7 +277,10 @@ function main(){
         logs.innerHTML += temp + " = error<br>";
         return;
     }
+    formula = pi(formula);
+    console.log(formula);
     formula = hiddenMul(formula);
+    console.log(formula)
     formula = minus(formula);
 
     //計算を実行
