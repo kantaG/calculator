@@ -134,14 +134,6 @@ function hiddenMul(formula){
         }
     }
     while(true){
-        result = formula.search(/√√/);
-        if(result != -1){
-            formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
-        }else{
-            break;
-        }
-    }
-    while(true){
         result = formula.search(/\dC/);
         if(result != -1){
             formula = formula.slice(0, result+1) + "×" + formula.slice(result+1, formula.length);
