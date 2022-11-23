@@ -170,11 +170,11 @@ function find_brackets(formula){
 function find_root(formula){
     let result = formula.lastIndexOf("√");
     if(result != -1){
-        index = formula.slice(result+1, formula.length).search(/[\+\~×÷]/);
+        let index = formula.slice(result+1, formula.length).search(/[\+\~×÷]/);
         if(index == -1){
-            return [result, formula.length - 1]
+            return [result+1, formula.length]
         }
-        return [result, index+result];
+        return [result+1, index+result+1];
     }
     return -1;
 }
@@ -209,7 +209,7 @@ function exp(formula1, formula2){
 }
 
 function root(formula){
-    print(formula)
+    console.log(`root:${formula}`)
     if(Number(formula) < 0){
         console.log("minus root");
         errorflag = 1;
@@ -219,7 +219,7 @@ function root(formula){
 }
 
 function calculate(formula){
-    console.log(formula)
+    console.log(`calculate:${formula}`)
     //計算を実行
     //返り値：計算結果
     //括弧
@@ -232,9 +232,9 @@ function calculate(formula){
     }
 
     let roots = find_root(formula);
-    console.log(roots)
+    console.log(`roots:${roots}`)
     if(roots !== -1){
-        return calculate(formula.slice(0, roots[0]) + String(root(formula.slice(roots[0]+1, roots[1])) + formula.slice(roots[1], formula.length)))
+        return calculate(formula.slice(0, roots[0]-1) + String(root(formula.slice(roots[0], roots[1])) + formula.slice(roots[1], formula.length)))
     }
 
     //加算。減算
