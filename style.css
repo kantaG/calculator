@@ -63,6 +63,18 @@ body{
     background-color: #5f7f7f;
 }
 
+.mem{
+    background-color: #777777;
+}
+
+.mem:hover{
+    background-color: #666666;
+}
+
+.mem:active{
+    background-color: #444444;
+}
+
 #btneq{
     background-color: #af3c00;
 }
