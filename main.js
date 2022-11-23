@@ -1,4 +1,13 @@
 var errorflag = 0;
+var memory = 0;
+
+function mem_plus(value){
+    memory += "+" + value;
+}
+
+function mem_min(value){
+    memory += "-" + value;
+}
 
 function onKey(e){
     //キー入力を受け付ける
@@ -6,6 +15,7 @@ function onKey(e){
     document.getElementById('se').play();
     let input = document.getElementById("numIn");
     let btnval = e.target.value;
+    let memory_disp = document.getElementById("memory");
     if(btnval == "="){
         main();
         return;
@@ -24,6 +34,29 @@ function onKey(e){
     }
     if(btnval == "cos"){
         input.value += "cos("
+        return;
+    }
+    if(btnval == "M+"){
+        if(!isNaN(input.value)){
+            memory += Number(input.value);
+            memory_disp.textContent = memory;
+        }
+        return;
+    }
+    if(btnval == "M-"){
+        if(!isNaN(input.value)){
+            memory -= Number(input.value);
+            memory_disp.textContent = memory;
+        }
+        return;
+    }
+    if(btnval == "MR"){
+        input.value = String(memory);
+        return;
+    }
+    if(btnval == "MC"){
+        memory = 0;
+        memory_disp.textContent = memory;
         return;
     }
     input.value += btnval;
